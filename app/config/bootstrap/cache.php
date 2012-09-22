@@ -38,6 +38,8 @@ if ($apcEnabled) {
 }
 Cache::config(compact('default'));
 
+
+
 /**
  * Caches paths for auto-loaded and service-located classes when in production.
  */
