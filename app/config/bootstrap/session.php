@@ -14,10 +14,26 @@
  */
 use lithium\storage\Session;
 
+
+
 $name = basename(LITHIUM_APP_PATH);
-Session::config(array(
-	// 'cookie' => array('adapter' => 'Cookie', 'name' => $name),
-	'default' => array('adapter' => 'Php', 'session.name' => $name)
+Session::config(array( 
+
+    /*	'default' => array(
+        'adapter' => 'Php', 
+        'session.name' => $name
+    )        */
+    
+   'default' => array( 
+    'adapter' => 'Cookie',
+    'strategies' => array('Encrypt' => array(
+        'cipher' => MCRYPT_RIJNDAEL_256,
+        'mode' => MCRYPT_MODE_ECB,
+        'secret' => 'darkr0a$t'
+        )
+    ),
+    'expire' => '+1 week'
+   )
 ));
 
 /**
@@ -38,14 +54,48 @@ Session::config(array(
  * @see lithium\action\Request::$data
  * @see lithium\security\Auth
  */
-// use lithium\security\Auth;
+ use lithium\security\Auth;
 
-// Auth::config(array(
-// 	'default' => array(
-// 		'adapter' => 'Form',
-// 		'model' => 'Users',
-// 		'fields' => array('username', 'password')
-// 	)
-// ));
+ Auth::config(array(
+    'default' => array(
+	    'adapter' => 'Form',
+        'model' => 'Users',
+	    'fields' => array('username', 'password')
+    )
+ ));
+
+ 
+ 
+
+/**
+* Added functionality and user lookup of Auth::check
+* Gives a user model back instead of just auth data. 
+*/
+ 
+use app\models\Users;
+ 
+ Auth::applyFilter('check',function($self, $params, $chain) {
+     $auth_result = $chain->next($self, $params, $chain);
+     if($auth_result) {
+         $_id = $auth_result['_id'];
+         $logged_in_user = Users::find('first',array(
+                'conditions' => array(
+                    '_id'=>$_id
+                )
+            )
+         );
+         return $logged_in_user;
+     }
+     return $auth_result;
+ });
+ 
+ 
+/*
+use lithium\security\Auth;
+
+Auth::config(array(
+    'default' => array('adapter' => 'Form')
+));
+*/
 
 ?>

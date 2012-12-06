@@ -59,7 +59,10 @@ define('LITHIUM_APP_PATH', dirname(dirname(__DIR__)));
  * directory as your application.  If you use the same libraries in multiple applications, you can
  * set this to a shared path on your server.
  */
-define('LITHIUM_LIBRARY_PATH', '/usr/local/lib/');
+//define('LITHIUM_LIBRARY_PATH', '/usr/local/lib/');
+
+define('LITHIUM_LIBRARY_PATH', dirname(LITHIUM_APP_PATH) . '/libraries');
+
 
 /**
  * Locate and load Lithium core library files.  Throws a fatal error if the core can't be found.
@@ -104,6 +107,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Compiler.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/template/view/adapter/File.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/storage/Cache.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
+require LITHIUM_LIBRARY_PATH . '/facebook/facebook.php';
 
 /**
  * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You
@@ -111,15 +115,19 @@ require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
  */
 Libraries::add('lithium');
 
+
 /**
  * Add the application.  You can pass a `'path'` key here if this bootstrap file is outside of
  * your main application, but generally you should not need to change any settings.
  */
 Libraries::add('app', array('default' => true));
 
+
+
 /**
  * Add some plugins:
  */
-// Libraries::add('li3_docs');
+ Libraries::add('li3_docs');
+ Libraries::add('li3_qa');
 
 ?>

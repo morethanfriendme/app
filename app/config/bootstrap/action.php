@@ -55,9 +55,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 
 
 Environment::is(function($request) {
-        
     return $request->env('APPLICATION_ENV');
-    
 });
 
 ?>

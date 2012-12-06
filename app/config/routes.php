@@ -32,15 +32,18 @@ if ($locales = Environment::get('locales')) {
 	Router::connect($template, array(), array('continue' => true));
 }
 
+
 /**
- * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
- * its action called `view()`, and we pass a param to select the view file
- * to use (in this case, `/views/pages/home.html.php`; see `app\controllers\PagesController`
- * for details).
- *
- * @see app\controllers\PagesController
- */
-Router::connect('/', 'Pages::view');
+* App Defined Routes
+* Login/Logout
+*/
+
+Router::connect('/', 'Home::view');
+Router::connect('/login', 'Sessions::add');
+Router::connect('/logout', 'Sessions::delete');
+
+
+
 
 /**
  * Connect the rest of `PagesController`'s URLs. This will route URLs like `/pages/about` to
@@ -92,6 +95,12 @@ if (!Environment::is('production')) {
  * In almost all cases, custom routes should be added above this one, since route-matching works in
  * a top-down fashion.
  */
+
+Router::connect('/{:controller}/{:action}.{:type}');
+
 Router::connect('/{:controller}/{:action}/{:args}');
+
+
+
 
 ?>

@@ -25,6 +25,9 @@ namespace app\controllers;
  */
 class PagesController extends \lithium\action\Controller {
 
+    /**
+    * View Action
+    */
 	public function view() {
 		$options = array();
 		$path = func_get_args();
